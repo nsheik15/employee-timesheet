@@ -4,14 +4,22 @@
   background-color: $primary;
   height: 60px;
   .col-2 {
-    height: 100%;
     .title {
       color: $white;
       font-size: 24px;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-weight: 500;
+    }
+    .user-name {
+      color: $white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+  .col-1 {
+    .pi {
+      color: $white;
+      font-weight: 600;
+      font-size: 14px;
     }
   }
 }
