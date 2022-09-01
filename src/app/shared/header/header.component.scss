@@ -1,0 +1,10 @@
+@import './../../../assets/scss/variables';
+
+.row {
+  background-color: $primary;
+  height: 60px;
+  .title {
+    color: $white;
+    font-size: 24px;
+  }
+}

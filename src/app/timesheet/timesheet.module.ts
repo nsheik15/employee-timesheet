@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TimesheetRoutingModule } from './timesheet-routing.module';
 import { TimesheetComponent } from './timesheet/timesheet.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { TimesheetComponent } from './timesheet/timesheet.component';
   ],
   imports: [
     CommonModule,
-    TimesheetRoutingModule
+    TimesheetRoutingModule,
+    SharedModule
   ]
 })
 export class TimesheetModule { }
