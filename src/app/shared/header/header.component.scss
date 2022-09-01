@@ -3,8 +3,15 @@
 .row {
   background-color: $primary;
   height: 60px;
-  .title {
-    color: $white;
-    font-size: 24px;
+  .col-2 {
+    height: 100%;
+    .title {
+      color: $white;
+      font-size: 24px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
