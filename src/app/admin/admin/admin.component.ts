@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
   products: any;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.products = [
@@ -24,6 +25,10 @@ export class AdminComponent implements OnInit {
         status: 'Rejected',
       },
     ]
+  }
+
+  view(){
+    this.router.navigate(['/timesheet']);
   }
 
 }
