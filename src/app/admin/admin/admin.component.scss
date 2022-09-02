@@ -1,0 +1,12 @@
+@import './../../../assets/scss/variables';
+
+.title p{
+    font-size: 26px;
+    font-weight: 600;
+    color: $primary;
+    padding: 10px 5px;
+}
+
+.view-btn{
+    padding: 0.5rem 1.25rem !important;
+}
