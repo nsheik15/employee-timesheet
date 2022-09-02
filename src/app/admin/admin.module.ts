@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin/admin.component';
-import {TableModule} from 'primeng/table';
-import {ButtonModule} from 'primeng/button';
+import { PrimengModule } from '../primeng/primeng.module';
 
 @NgModule({
   declarations: [
@@ -13,8 +12,7 @@ import {ButtonModule} from 'primeng/button';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    TableModule,
-    ButtonModule
+    PrimengModule
   ]
 })
 export class AdminModule { }
