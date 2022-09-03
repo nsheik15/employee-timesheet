@@ -1,7 +1,47 @@
 @import './../../../assets/scss/variables';
 
 .row {
+  width: 100%;
+  margin: 0;
   height: 50px;
   background-color: $grey;
   display: flex;
+  .title {
+    font-weight: 700;
+  }
+  .p-button-text {
+    background-color: $white;
+    height: 35px;
+    margin-right: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  .p-button-success {
+    height: 35px;
+    margin-right: 15px;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  .date-btn {
+    border: solid 3px rgb(17, 146, 197);
+    width: 30px;
+    height: 30px;
+    opacity: 0.9;
+    .pi {
+      color: rgb(17, 146, 197);
+      font-size: 24px;
+    }
+    .pi-angle-left {
+      margin-left: -6px;
+    }
+    .pi-angle-right {
+      margin-left: -4px;
+    }
+  }
+  .date-txt {
+    width: 220px;
+    height: 30px;
+    margin: 0 5px;
+    background-color: $white;
+  }
 }
