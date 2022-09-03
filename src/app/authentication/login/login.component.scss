@@ -1,0 +1,115 @@
+@import './../../../assets/scss/variables';
+
+.login-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $background;
+  .bg-primary {
+    background-color: $primary !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+      width: 400px;
+      padding-top: 42px;
+      color: $white;
+      font-size: 30px;
+    }
+    img {
+      margin-top: 60px;
+      width: 360px;
+      height: 280px;
+    }
+  }
+  .row {
+    height: 100%;
+  }
+  .login-form {
+    width: 340px;
+    height: 400px;
+    margin: 0 !important;
+    h4 {
+      color: $primary;
+      font-weight: 600;
+      font-size: 26px;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+    h6 {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    input, .p-inputgroup-addon {
+      height: 40px;
+      border-radius: 2px;
+      font-size: 14px;
+      .pi {
+        font-size: 14px;
+      }
+    }
+    .p-inputgroup-addon {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .checkbox {
+      margin-top: 14px;
+      p-checkbox {
+        margin-right: 8px;
+      }
+      label {
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+    }
+    a {
+      color: $sky-blue;
+      margin-top: 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .login-btn {
+      width: 100%;
+      height: 38px;
+      margin-top: 65px;
+      border-radius: 0.25rem;
+      background: $yellow !important;
+      border: 1px solid $yellow !important;
+    }
+  }
+}
+::ng-deep.p-card {
+  width: 979px;
+  height: 518px;
+  border-radius: 0;
+}
+::ng-deep.p-card-body, ::ng-deep.p-card-content {
+  padding: 0 !important;
+  height: 100%;
+}
+::ng-deep.p-checkbox .p-checkbox-box.p-highlight {
+  border-color: $yellow !important;
+  background: $yellow !important;
+}
+::ng-deep.p-checkbox .p-checkbox-box.p-focus {
+  border-color: $yellow !important;
+  box-shadow: 0 0 0 0.2rem $light-yellow !important;
+}
+::ng-deep.p-checkbox .p-checkbox-box:hover {
+  border-color: $yellow !important;
+}
+::ng-deep.p-checkbox .p-checkbox-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+}
+::ng-deep.p-checkbox .p-checkbox-box .p-checkbox-icon {
+  font-size: 10px;
+}
+::ng-deep.p-checkbox {
+  width: 16px !important;
+  height: 19px !important;
+}

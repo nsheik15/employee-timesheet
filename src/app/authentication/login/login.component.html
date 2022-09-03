@@ -1,1 +1,36 @@
-<p>login works!</p>
+<div class="login-container">
+  <p-card>
+    <div class="row">
+      <div class="col-6 bg-primary">
+        <div class="title">
+          Timesheet
+        </div>
+        <img src="assets/images/login-img.png" alt="">
+      </div>
+      <div class="col-6 d-flex align-items-center justify-content-center">
+        <div class="login-form">
+          <h4>Login</h4>
+          <hr>
+          <h6 class="mt-4">Email Address</h6>
+          <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+              <input type="text" pInputText placeholder="Email">
+          </div>
+          <h6 class="mt-4">Password</h6>
+          <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+              <input type="password" pInputText placeholder="Password">
+          </div>
+          <div class="d-flex flex-direction-col justify-content-between">
+            <div class="checkbox">
+              <p-checkbox [binary]="true" inputId="rememberMe"></p-checkbox>
+              <label for="rememberMe">Remember me</label>
+            </div>
+            <a>Forgot Password?</a>
+          </div>
+          <button pButton pRipple type="button" label="Login" class="login-btn"></button>
+        </div>
+      </div>
+    </div>
+  </p-card>
+</div>
