@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TimesheetComponent } from './timesheet/timesheet.component';
 
 const routes: Routes = [
-  { path: '', component: TimesheetComponent },
-  { path: 'timesheet', component: TimesheetComponent}
+  { path: '', component: TimesheetComponent }
 ];
 
 @NgModule({

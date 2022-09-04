@@ -1,6 +1,9 @@
-<div class="container-fluid">
+<app-header></app-header>
+<app-top-nav></app-top-nav>
+<div class="row">
+  <div class="col-12">
     <div class="title">
-        <p>Timesheets</p>
+        <p>Admin</p>
     </div>
     <div class="tableContainer">
           <p-table [value]="products" responsiveLayout="scroll">
@@ -8,7 +11,7 @@
                 <tr>
                     <th>Employee Name</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th></th>
                   </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product>
@@ -16,10 +19,11 @@
                     <td>{{product.emp_name}}</td>
                     <td>{{product.status}}</td>
                     <td>
-                        <button pButton type="button" label="View" class="p-button-info view-btn" (click)="view()"></button>
+                        <button pButton type="button" label="View" class="p-button-info view-btn" (click)="view(product.id)"></button>
                     </td>
                   </tr>
             </ng-template>
         </p-table>
     </div>
+  </div>
 </div>

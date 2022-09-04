@@ -1,12 +1,39 @@
 @import './../../../assets/scss/variables';
 
-.title p{
-    font-size: 26px;
-    font-weight: 600;
-    color: $primary;
-    padding: 10px 5px;
+.row {
+  margin: 10px 30px;
+  .tableContainer {
+    margin-top: 20px;
+    tr {
+      border-top: 1px solid #dee2e6;
+      th {
+        font-size: 15px;
+        background-color: $white;
+      }
+      td {
+        background-color: $light-grey;
+        font-size: 15px;
+        .view-btn {
+          height: 30px;
+          border-radius: 0.25rem;
+          background: $yellow !important;
+          border: 1px solid $yellow !important;
+          font-size: 14px;
+        }
+      }
+      td:nth-child(2) {
+        width: 300px;
+      }
+      td:nth-child(3) {
+        width: 100px;
+      }
+    }
+  }
 }
 
-.view-btn{
-    padding: 0.5rem 1.25rem !important;
+.title {
+  color: $primary;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 10px;
 }

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   login() {
     if(this.loginForm.valid) {
       if((this.loginForm.get('email')?.value === 'user') && (this.loginForm.get('password')?.value === 'user'))
-        this.router.navigate(['timesheet']);
+        this.router.navigate(['timesheet/1']);
       else if((this.loginForm.get('email')?.value === 'admin') && (this.loginForm.get('password')?.value === 'admin'))
         this.router.navigate(['admin']);
     }

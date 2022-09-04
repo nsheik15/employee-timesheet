@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-top-nav',
@@ -11,13 +12,19 @@ export class TopNavComponent implements OnInit {
   startDate = new Date();
   endDate = new Date();
   currDate = new Date();
+  path = '';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.startDate = this.setWeekStartDate(this.currDate);
     this.endDate = this.setWeekEndDate(this.currDate);
     this.emitDateChange();
+    this.getPath();
+  }
+
+  getPath() {
+    this.path = this.router.url;
   }
 
   emitDateChange() {

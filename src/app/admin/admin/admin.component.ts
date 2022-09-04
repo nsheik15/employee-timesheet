@@ -13,22 +13,25 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.products = [
       {
+        id: 1,
         emp_name: 'Andrew',
         status: 'Submitted',
       },
       {
+        id: 2,
         emp_name: 'David',
         status: 'Not submitted',
       },
       {
+        id: 3,
         emp_name: 'George',
         status: 'Rejected',
       },
     ]
   }
 
-  view(){
-    this.router.navigate(['/timesheet']);
+  view(id: number){
+    this.router.navigate(['timesheet', id]);
   }
 
 }

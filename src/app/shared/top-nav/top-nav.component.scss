@@ -22,6 +22,9 @@
     border-radius: 5px;
     font-weight: 500;
   }
+  .p-button-success:disabled {
+    opacity: 1;
+  }
   .date-btn {
     border: solid 3px rgb(17, 146, 197);
     width: 30px;
