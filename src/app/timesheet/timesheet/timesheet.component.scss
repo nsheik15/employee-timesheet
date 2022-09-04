@@ -1,0 +1,61 @@
+@import './../../../assets/scss/variables';
+
+.row {
+  margin: 10px 30px;
+  .title {
+    color: $primary;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+  .tableContainer {
+    margin-top: 20px;
+    input {
+      height: 30px;
+      width: 70px;
+      font-size: 14px;
+    }
+    .inp-txt {
+      width: 200px !important;
+    }
+    tr {
+      border-top: 1px solid #dee2e6;
+      th {
+        font-size: 15px;
+        background-color: $white;
+        .day {
+          font-size: 14px;
+          color: $primary;
+        }
+        .date {
+          font-size: 14px;
+          font-weight: 400;
+          color: $dark-grey;
+        }
+      }
+      td {
+        background-color: $light-grey;
+      }
+    }
+  }
+}
+.total-hours {
+  margin-top: 50px;
+  h3 {
+    color: $primary;
+    font-weight: 700;
+    span {
+      color: $yellow;
+    }
+  }
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  display: none;
+}
+
+.required:after {
+  content:" *";
+  color:red;
+}

@@ -1,1 +1,86 @@
-<p>timesheet works!</p>
+<app-header></app-header>
+<app-top-nav (dateChange)="setStartDate($event)"></app-top-nav>
+<div class="row">
+  <div class="title">
+    Log Time
+  </div>
+  <div class="tableContainer">
+    <p-table responsiveLayout="scroll" [value]="[{}]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="required">Projects</th>
+          <th class="required">Tasks</th>
+          <th>
+            <div class="day">Sun</div>
+            <div class="date"> {{ startDate | date : 'MMM d' }} </div>
+          </th>
+          <th>
+            <div class="day">Mon</div>
+            <div class="date"> {{ monDate | date : 'MMM d' }} </div>
+          </th>
+          <th>
+            <div class="day">Tue</div>
+            <div class="date"> {{ tueDate | date : 'MMM d' }} </div>
+          </th>
+          <th>
+            <div class="day">Wed</div>
+            <div class="date"> {{ wedDate | date : 'MMM d' }} </div>
+          </th>
+          <th>
+            <div class="day">Thu</div>
+            <div class="date"> {{ thuDate | date : 'MMM d' }} </div>
+          </th>
+          <th>
+            <div class="day">Fri</div>
+            <div class="date"> {{ friDate | date : 'MMM d' }} </div>
+          </th>
+          <th>
+            <div class="day">Sat</div>
+            <div class="date"> {{ satDate | date : 'MMM d' }} </div>
+          </th>
+          <th>Total</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body">
+        <tr [formGroup]="timesheetForm">
+          <td>
+            <input class="inp-txt" type="text" pInputText placeholder="Project Name" formControlName="project">
+          </td>
+          <td>
+            <input class="inp-txt" type="text" pInputText placeholder="Task Name" formControlName="task">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="sunTime">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="monTime">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="tueTime">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="wedTime">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="thuTime">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="friTime">
+          </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="satTime">
+          </td>
+          <td>
+            <input type="text" pInputText placeholder="0:00" formControlName="totalTime">
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="row total-hours">
+  <div class="col-9"></div>
+  <div class="col-3">
+    <h3>Total Hours: &nbsp; <span> {{ timesheetForm.get('totalTime')?.value }} </span></h3>
+  </div>
+</div>
