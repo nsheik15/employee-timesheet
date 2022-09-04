@@ -1,1 +1,51 @@
-<p>register works!</p>
+<div class="login-container">
+  <p-card>
+    <div class="row">
+      <div class="col-4 bg-primary">
+        <div class="title">
+          Timesheet
+        </div>
+        <img src="assets/images/login-img.png" alt="">
+      </div>
+      <form class="col-8 px-4" [formGroup]="registerForm" (submit)="register()">
+        <h4>Sign up</h4>
+        <hr>
+        <div class="row">
+          <div class="col-12">
+            <a routerLink="/login">
+              <i class="pi pi-angle-left"></i>
+              Back to login
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <h6 class="mt-4 required">Full Name</h6>
+            <input type="text" pInputText placeholder="Name" formControlName="name">
+            <h6 class="mt-4 required">Organization</h6>
+            <input type="text" pInputText placeholder="Organization" formControlName="organization">
+            <h6 class="mt-4 required">Designation</h6>
+            <input type="text" pInputText placeholder="Designation" formControlName="designation">
+            <div class="checkbox">
+              <p-checkbox [binary]="true" inputId="admin" formControlName="isAdmin"></p-checkbox>
+              <label for="admin">Signup as Organization</label>
+            </div>
+          </div>
+          <div class="col-6">
+            <h6 class="mt-4 required">Email</h6>
+            <input type="text" pInputText placeholder="Email" formControlName="email">
+            <h6 class="mt-4 required">Password</h6>
+            <input type="password" pInputText placeholder="Password" formControlName="password">
+            <h6 class="mt-4 required">Confirm Password</h6>
+            <input type="password" pInputText placeholder="Confirm Password" formControlName="confirmPassword">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button pButton pRipple type="submit" label="Sign up" class="register-btn"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-card>
+</div>
