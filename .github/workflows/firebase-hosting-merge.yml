@@ -13,11 +13,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install Node
         uses: actions/setup-node@v1
-          with:
-            node-version: 12.8
+        with:
+          node-version: 12.8
       - name: npm dependencies
         run: npm install
-      - uses: actions/checkout@v2
       - run: npm run build-prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
