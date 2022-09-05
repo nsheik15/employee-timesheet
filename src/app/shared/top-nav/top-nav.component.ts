@@ -24,7 +24,7 @@ export class TopNavComponent implements OnInit {
   }
 
   getPath() {
-    this.path = this.router.url;
+    this.path = this.router.url.split('/')[1];
   }
 
   emitDateChange() {
