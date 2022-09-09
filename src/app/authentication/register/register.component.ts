@@ -1,23 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, AfterViewInit {
 
   registerForm!: FormGroup;
   spinner = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthenticationService, private messageService: MessageService) { }
+  constructor(private fb: FormBuilder, private router: Router, private auth: AuthenticationService, private messageService: MessageService, private toast: ToastService) { }
 
   ngOnInit(): void {
     this.initRegisterForm();
+  }
+
+  ngAfterViewInit() {
+    this.getWarnMsg();
+  }
+
+  getWarnMsg() {
+    this.toast.getWarnMsg().subscribe(msg => {
+      if(!!msg) {
+        setTimeout(() => {
+          this.messageService.add({severity: 'warn', summary: 'Warning', detail: msg, key: 'toast'});
+        }, 300);
+        this.toast.warn(null);
+      }
+    });
   }
 
   initRegisterForm() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   loginForm!: FormGroup;
   spinner = false;
@@ -21,6 +21,33 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.initLoginForm();
+  }
+
+  ngAfterViewInit() {
+    this.getWarnMsg();
+    this.getLogoutMsg();
+  }
+
+  getWarnMsg() {
+    this.toast.getWarnMsg().subscribe(msg => {
+      if(!!msg) {
+        setTimeout(() => {
+          this.messageService.add({severity: 'warn', summary: 'Warning', detail: msg, key: 'toast'});
+        }, 300);
+        this.toast.warn(null);
+      }
+    });
+  }
+
+  getLogoutMsg() {
+    this.toast.getLogoutMsg().subscribe(msg => {
+      if(!!msg) {
+        setTimeout(() => {
+          this.messageService.add({severity: 'success', summary: 'Success', detail: msg, key: 'toast'});
+        }, 300);
+        this.toast.logout(null);
+      }
+    });
   }
 
   initLoginForm() {

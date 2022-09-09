@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
+import { ToastService } from './toast.service';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -8,7 +9,11 @@ import { UserService } from './user.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private userService: UserService, private router: Router) { }
+  loginMsg = 'Please login to continue';
+  logoutMsg = 'Please logout to continue';
+  authMsg = 'You are not authorized';
+
+  constructor(private userService: UserService, private router: Router, private toast: ToastService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -42,11 +47,17 @@ export class AuthGuard implements CanActivate {
             if(!!user) {
               if(user.role === 'admin') {
                 if((path === 'login') || (path === 'register')) {
+                  this.toast.warn(this.logoutMsg);
                   this.router.navigate(['/admin'])
                 } else
                   return of(true);
               } else if(user.role === 'user') {
                 if((path === 'login') || (path === 'register') || (path === 'admin')) {
+                  if(path === 'admin') {
+                    this.toast.warn(this.authMsg);
+                  } else {
+                    this.toast.warn(this.logoutMsg);
+                  }
                   this.router.navigate(['/timesheet', user.id]);
                 } else
                   return of(true);
@@ -55,6 +66,7 @@ export class AuthGuard implements CanActivate {
               if((path === 'login') || (path === 'register'))
                 return of(true);
               else {
+                this.toast.warn(this.loginMsg);
                 this.router.navigate(['/login']);
               }
             }
@@ -64,6 +76,7 @@ export class AuthGuard implements CanActivate {
           if((path === 'login') || (path === 'register'))
             return of(true);
           else {
+            this.toast.warn(this.loginMsg);
             this.router.navigate(['/login']);
           }
         }
