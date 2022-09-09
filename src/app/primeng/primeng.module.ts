@@ -5,13 +5,18 @@ import {ButtonModule} from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
+import {ToastModule} from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 const PrimengComponents = [
   TableModule,
   ButtonModule,
   InputTextModule,
   CardModule,
-  CheckboxModule
+  CheckboxModule,
+  ToastModule,
+  ProgressSpinnerModule
 ]
 
 @NgModule({
@@ -22,6 +27,9 @@ const PrimengComponents = [
   ],
   exports: [
     PrimengComponents
+  ],
+  providers: [
+    MessageService
   ]
 })
 export class PrimengModule { }
