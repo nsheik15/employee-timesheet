@@ -34,6 +34,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getLoginMsg();
+    this.getWarnMsg();
   }
 
   getLoginMsg() {
@@ -43,6 +44,17 @@ export class AdminComponent implements OnInit, AfterViewInit {
           this.messageService.add({severity:'success', summary:'Success', detail: msg, key: 'toast'});
         }, 300);
         this.toast.login(null);
+      }
+    });
+  }
+
+  getWarnMsg() {
+    this.toast.getWarnMsg().subscribe(msg => {
+      if(!!msg) {
+        setTimeout(() => {
+          this.messageService.add({severity: 'warn', summary: 'Warning', detail: msg, key: 'toast'});
+        }, 300);
+        this.toast.warn(null);
       }
     });
   }
