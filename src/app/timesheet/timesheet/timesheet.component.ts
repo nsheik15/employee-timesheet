@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-timesheet',
   templateUrl: './timesheet.component.html',
   styleUrls: ['./timesheet.component.scss']
 })
-export class TimesheetComponent implements OnInit {
+export class TimesheetComponent implements OnInit, AfterViewInit {
 
   startDate = new Date();
   monDate = new Date();
@@ -18,11 +20,26 @@ export class TimesheetComponent implements OnInit {
 
   timesheetForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService) { }
 
   ngOnInit(): void {
     this.initTimesheetForm();
     this.onFormChange();
+  }
+
+  ngAfterViewInit() {
+    this.getLoginMsg();
+  }
+
+  getLoginMsg() {
+    this.toast.getLoginMsg().subscribe(msg => {
+      if(!!msg) {
+        setTimeout(() => {
+          this.messageService.add({severity:'success', summary:'Success', detail: msg, key: 'toast'});
+        }, 300);
+        this.toast.login(null);
+      }
+    });
   }
 
   initTimesheetForm() {

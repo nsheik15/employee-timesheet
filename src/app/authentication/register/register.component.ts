@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -10,8 +12,9 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
+  spinner = false;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router, private auth: AuthenticationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.initRegisterForm();
@@ -30,9 +33,25 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.spinner = true;
     if(this.registerForm.valid) {
-      console.log(this.registerForm.value);
-      this.router.navigate(['/login']);
+      let payload = { ...this.registerForm.value };
+      delete payload.confirmPassword;
+      payload.role = this.registerForm.get('isAdmin')?.value ? 'admin' : 'user';
+      delete payload.isAdmin;
+
+      this.auth.register(payload).subscribe({
+        next: (res) => {
+          this.spinner = false;
+          if(res.status === 201) {
+            this.messageService.add({severity:'success', summary:'Success', detail: res.message, key: 'toast'});
+            this.router.navigate(['/login']);
+          }
+        }, error: (err) => {
+          this.spinner = false;
+          this.messageService.add({severity:'error', summary:'Error', detail: err.error.message, key: 'toast'});
+        }
+      });
     }
   }
 
