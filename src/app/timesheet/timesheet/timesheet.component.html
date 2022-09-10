@@ -2,6 +2,7 @@
 <app-top-nav (dateChange)="setStartDate($event)"></app-top-nav>
 <div class="row">
   <div class="title">
+    <a *ngIf="user?.role === 'admin'" routerLink="/admin"><i class="pi pi-arrow-left"></i></a>
     Log Time
   </div>
   <div class="tableContainer">

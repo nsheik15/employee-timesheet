@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-timesheet',
@@ -17,12 +18,14 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
   thuDate = new Date();
   friDate = new Date();
   satDate = new Date();
+  user: any;
 
   timesheetForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService) { }
+  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.getUserDetails();
     this.initTimesheetForm();
     this.onFormChange();
   }
@@ -40,6 +43,12 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
         }, 300);
         this.toast.login(null);
       }
+    });
+  }
+
+  getUserDetails() {
+    this.userService.getUser().asObservable().subscribe(user => {
+      this.user = user;
     });
   }
 
