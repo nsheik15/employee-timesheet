@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,18 @@ import { ToastService } from 'src/app/services/toast.service';
 export class HeaderComponent implements OnInit {
 
   spinner = false;
+  user: any;
 
-  constructor(private router: Router, private auth: AuthenticationService, private messageService: MessageService, private toast: ToastService) { }
+  constructor(private router: Router, private auth: AuthenticationService, private messageService: MessageService, private toast: ToastService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.getUserDetails();
+  }
+
+  getUserDetails() {
+    this.userService.getUser().asObservable().subscribe(user => {
+      this.user = user;
+    });
   }
 
   logout() {

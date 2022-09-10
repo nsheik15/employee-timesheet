@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -13,14 +14,22 @@ export class TopNavComponent implements OnInit {
   endDate = new Date();
   currDate = new Date();
   path = '';
+  user: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.getUserDetails();
     this.startDate = this.setWeekStartDate(this.currDate);
     this.endDate = this.setWeekEndDate(this.currDate);
     this.emitDateChange();
     this.getPath();
+  }
+
+  getUserDetails() {
+    this.userService.getUser().asObservable().subscribe(user => {
+      this.user = user;
+    });
   }
 
   getPath() {
