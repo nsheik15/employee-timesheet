@@ -1,12 +1,12 @@
 <app-header></app-header>
-<app-top-nav (dateChange)="setStartDate($event)"></app-top-nav>
+<app-top-nav (dateChange)="setStartDate($event)" (action)="getAction($event)"></app-top-nav>
 <div class="row">
   <div class="title">
     <a *ngIf="user?.role === 'admin'" routerLink="/admin"><i class="pi pi-arrow-left"></i></a>
     Log Time
   </div>
-  <div class="tableContainer">
-    <p-table responsiveLayout="scroll" [value]="timesheetArr" [formGroup]="timesheetForm">
+  <form class="tableContainer" [formGroup]="timesheetForm">
+    <p-table responsiveLayout="scroll" [value]="timesheetArr">
       <ng-template pTemplate="header">
         <tr>
           <th class="required">Projects</th>
@@ -73,7 +73,7 @@
           </td>
           <td class="remove-col">
             <input type="text" pInputText placeholder="0:00" formControlName="totalTime">
-            <button class="remove-icon" (click)="removeRow(fi)" [disabled]="timesheetArr.length === 1">
+            <button type="button" class="remove-icon" (click)="removeRow(fi)" [disabled]="timesheetArr.length === 1">
               <i class="pi pi-times"></i>
             </button>
           </td>
@@ -81,7 +81,7 @@
 
         <tr *ngIf="fi === timesheetArr.length - 1" class="last">
           <td class="add-col">
-            <button class="add-btn" (click)="addRow()">
+            <button type="button" class="add-btn" (click)="addRow()">
               <div class="add-icon">
                 <i class="pi pi-plus"></i>
               </div>
@@ -100,7 +100,7 @@
         </tr>
       </ng-template>
     </p-table>
-  </div>
+  </form>
 </div>
 <div class="row total-hours">
   <div class="col-9"></div>

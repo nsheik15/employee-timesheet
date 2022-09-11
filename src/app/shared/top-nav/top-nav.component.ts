@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class TopNavComponent implements OnInit {
 
   @Output('dateChange') dateChangeEmitter = new EventEmitter();
+  @Output('action') actionEmitter = new EventEmitter();
   startDate = new Date();
   endDate = new Date();
   currDate = new Date();

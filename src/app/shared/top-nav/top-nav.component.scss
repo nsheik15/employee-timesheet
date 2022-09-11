@@ -6,6 +6,9 @@
   height: 50px;
   background-color: $grey;
   display: flex;
+  position: sticky;
+  top: 60px;
+  z-index: 1;
   .title {
     font-weight: 700;
   }
