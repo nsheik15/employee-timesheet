@@ -27,10 +27,11 @@
       width: 200px !important;
     }
     tr {
-      border-top: 1px solid #dee2e6;
+      border-top: 1px solid $border;
       th {
         font-size: 15px;
         background-color: $white;
+        color
         .day {
           font-size: 14px;
           color: $primary;
@@ -43,6 +44,86 @@
       }
       td {
         background-color: $light-grey;
+        padding: 16px 10px;
+      }
+      td.remove-col {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border: none;
+        .remove-icon {
+          margin-left: 10px;
+          width: 18px;
+          height: 18px;
+          background-color: $yellow;
+          color: $white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          cursor: pointer;
+          .pi {
+            font-size: 10px;
+            font-weight: 700;
+            color: $white;
+          }
+        }
+        .remove-icon:hover {
+          cursor: pointer;
+        }
+        .remove-icon:disabled {
+          cursor: not-allowed;
+        }
+      }
+    }
+    tr.last {
+      td {
+        background-color: $white;
+        color: $th-black;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 10px;
+        text-align: center;
+      }
+      td.add-col {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .add-btn {
+          width: 92px;
+          outline: none;
+          border: none;
+          padding: 0;
+          background: transparent;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: 500;
+          color: $primary;
+          cursor: pointer;
+          .add-icon {
+            width: 20px;
+            height: 20px;
+            background-color: $yellow;
+            color: $white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .pi {
+              font-size: 12px;
+              font-weight: 700;
+            }
+          }
+        }
+        .add-btn:hover {
+          cursor: pointer;
+        }
+      }
+      td:nth-last-child(1) {
+        padding-right: 40px;
       }
     }
   }
