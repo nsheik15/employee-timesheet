@@ -211,4 +211,19 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
     this.satDate.setDate(this.friDate.getDate() + 1);
   }
 
+  getAction(event: string) {
+    if(event === 'submit') {
+      this.submit();
+    }
+  }
+
+  submit() {
+    let payload = {
+      ...this.timesheetForm.value,
+      startDate: this.startDate,
+      endDate: this.satDate
+    };
+    console.log(payload);
+  }
+
 }

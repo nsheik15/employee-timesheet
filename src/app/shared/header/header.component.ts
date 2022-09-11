@@ -34,11 +34,7 @@ export class HeaderComponent implements OnInit {
         this.spinner = false;
         if(res.status === 200) {
           this.toast.logout(res.message);
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          sessionStorage.removeItem('token');
-          sessionStorage.removeItem('user');
-          this.router.navigate(['/login']);
+          this.auth.onLogout();
         }
       },
       error: (err) => {
