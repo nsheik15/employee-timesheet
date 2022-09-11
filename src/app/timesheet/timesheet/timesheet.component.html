@@ -6,7 +6,7 @@
     Log Time
   </div>
   <div class="tableContainer">
-    <p-table responsiveLayout="scroll" [value]="[{}]">
+    <p-table responsiveLayout="scroll" [value]="timesheetArr" [formGroup]="timesheetForm">
       <ng-template pTemplate="header">
         <tr>
           <th class="required">Projects</th>
@@ -42,8 +42,8 @@
           <th>Total</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body">
-        <tr [formGroup]="timesheetForm">
+      <ng-template pTemplate="body" let-fi="rowIndex" formArrayName="timesheetArr">
+        <tr [formGroupName]="fi">
           <td>
             <input class="inp-txt" type="text" pInputText placeholder="Project Name" formControlName="project">
           </td>
@@ -71,9 +71,32 @@
           <td>
             <input type="time" pInputText placeholder="0:00" formControlName="satTime">
           </td>
-          <td>
+          <td class="remove-col">
             <input type="text" pInputText placeholder="0:00" formControlName="totalTime">
+            <button class="remove-icon" (click)="removeRow(fi)" [disabled]="timesheetArr.length === 1">
+              <i class="pi pi-times"></i>
+            </button>
           </td>
+        </tr>
+
+        <tr *ngIf="fi === timesheetArr.length - 1" class="last">
+          <td class="add-col">
+            <button class="add-btn" (click)="addRow()">
+              <div class="add-icon">
+                <i class="pi pi-plus"></i>
+              </div>
+              Add New
+            </button>
+          </td>
+          <td></td>
+          <td> {{ totalPerDay.sunTime ? totalPerDay.sunTime : '00:00' }} </td>
+          <td> {{ totalPerDay.monTime ? totalPerDay.monTime : '00:00' }} </td>
+          <td> {{ totalPerDay.tueTime ? totalPerDay.tueTime : '00:00' }} </td>
+          <td> {{ totalPerDay.wedTime ? totalPerDay.wedTime : '00:00' }} </td>
+          <td> {{ totalPerDay.thuTime ? totalPerDay.thuTime : '00:00' }} </td>
+          <td> {{ totalPerDay.friTime ? totalPerDay.friTime : '00:00' }} </td>
+          <td> {{ totalPerDay.satTime ? totalPerDay.satTime : '00:00' }} </td>
+          <td> {{ grandTotal }} </td>
         </tr>
       </ng-template>
     </p-table>
@@ -82,7 +105,7 @@
 <div class="row total-hours">
   <div class="col-9"></div>
   <div class="col-3">
-    <h3>Total Hours: &nbsp; <span> {{ timesheetForm.get('totalTime')?.value }} </span></h3>
+    <h3>Total Hours: &nbsp; <span> {{ grandTotal }} </span></h3>
   </div>
 </div>
 <p-toast key="toast"></p-toast>
