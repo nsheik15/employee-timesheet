@@ -16,8 +16,15 @@
     </div>
   </div>
   <div *ngIf="path === 'timesheet'" class="col-3 d-flex flex-direction-row align-items-center justify-content-end">
-    <button *ngIf="user?.role === 'user'" pButton pRipple class="p-button-success p-button-plain" [disabled]="true">Approved</button>
-    <button *ngIf="user?.role === 'user'" pButton pRipple class="p-button-text p-button-plain" (click)="actionEmitter.emit('submit')">Submit</button>
+    <button *ngIf="user?.role === 'user'" pButton pRipple class="status-btn p-button-plain"
+      [ngClass]="{'p-button-text' : (status === 'Not Submitted'),
+        'p-button-success' : ((status === 'Submitted') || (status === 'Approved')),
+        'p-button-danger' : (status === 'Rejected')}"
+      [disabled]="true"> {{ status }} </button>
+    <button *ngIf="user?.role === 'user'" pButton pRipple
+      class="p-button-text p-button-plain"
+      [disabled]="(status === 'Approved') || (status === 'Submitted')"
+      (click)="actionEmitter.emit('submit')">Submit</button>
     <button *ngIf="user?.role === 'admin'" pButton pRipple class="p-button-success p-button-plain" (click)="actionEmitter.emit('approve')">Approve</button>
     <button *ngIf="user?.role === 'admin'" pButton pRipple class="p-button-danger p-button-plain" (click)="actionEmitter.emit('reject')">Reject</button>
   </div>

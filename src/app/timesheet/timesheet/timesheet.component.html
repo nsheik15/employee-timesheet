@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-top-nav (dateChange)="setStartDate($event)" (action)="getAction($event)"></app-top-nav>
+<app-top-nav (dateChange)="setStartDate($event)" (action)="getAction($event)" [status]="status"></app-top-nav>
 <div class="row">
   <div class="title">
     <a *ngIf="user?.role === 'admin'" routerLink="/admin"><i class="pi pi-arrow-left"></i></a>
@@ -12,12 +12,8 @@
           <th class="required">Projects</th>
           <th class="required">Tasks</th>
           <th>
-            <div class="day">Sun</div>
-            <div class="date"> {{ startDate | date : 'MMM d' }} </div>
-          </th>
-          <th>
             <div class="day">Mon</div>
-            <div class="date"> {{ monDate | date : 'MMM d' }} </div>
+            <div class="date"> {{ startDate | date : 'MMM d' }} </div>
           </th>
           <th>
             <div class="day">Tue</div>
@@ -39,6 +35,10 @@
             <div class="day">Sat</div>
             <div class="date"> {{ satDate | date : 'MMM d' }} </div>
           </th>
+          <th>
+            <div class="day">Sun</div>
+            <div class="date"> {{ sunDate | date : 'MMM d' }} </div>
+          </th>
           <th>Total</th>
         </tr>
       </ng-template>
@@ -49,9 +49,6 @@
           </td>
           <td>
             <input class="inp-txt" type="text" pInputText placeholder="Task Name" formControlName="task">
-          </td>
-          <td>
-            <input type="time" pInputText placeholder="0:00" formControlName="sunTime">
           </td>
           <td>
             <input type="time" pInputText placeholder="0:00" formControlName="monTime">
@@ -71,6 +68,9 @@
           <td>
             <input type="time" pInputText placeholder="0:00" formControlName="satTime">
           </td>
+          <td>
+            <input type="time" pInputText placeholder="0:00" formControlName="sunTime">
+          </td>
           <td class="remove-col">
             <input type="text" pInputText placeholder="0:00" formControlName="totalTime">
             <button type="button" class="remove-icon" (click)="removeRow(fi)" [disabled]="timesheetArr.length === 1">
@@ -89,13 +89,13 @@
             </button>
           </td>
           <td></td>
-          <td> {{ totalPerDay.sunTime ? totalPerDay.sunTime : '00:00' }} </td>
           <td> {{ totalPerDay.monTime ? totalPerDay.monTime : '00:00' }} </td>
           <td> {{ totalPerDay.tueTime ? totalPerDay.tueTime : '00:00' }} </td>
           <td> {{ totalPerDay.wedTime ? totalPerDay.wedTime : '00:00' }} </td>
           <td> {{ totalPerDay.thuTime ? totalPerDay.thuTime : '00:00' }} </td>
           <td> {{ totalPerDay.friTime ? totalPerDay.friTime : '00:00' }} </td>
           <td> {{ totalPerDay.satTime ? totalPerDay.satTime : '00:00' }} </td>
+          <td> {{ totalPerDay.sunTime ? totalPerDay.sunTime : '00:00' }} </td>
           <td> {{ grandTotal }} </td>
         </tr>
       </ng-template>
@@ -109,3 +109,6 @@
   </div>
 </div>
 <p-toast key="toast"></p-toast>
+<div *ngIf="spinner" class="spinner">
+  <p-progressSpinner></p-progressSpinner>
+</div>
