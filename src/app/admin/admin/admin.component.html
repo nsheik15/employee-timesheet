@@ -1,12 +1,12 @@
 <app-header></app-header>
-<app-top-nav></app-top-nav>
+<app-top-nav (dateChange)="setStartDate($event)"></app-top-nav>
 <div class="row">
   <div class="col-12">
     <div class="title">
         <p>Admin</p>
     </div>
     <div class="tableContainer">
-          <p-table [value]="products" responsiveLayout="scroll">
+          <p-table [value]="userStatusList" responsiveLayout="scroll">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Employee Name</th>
@@ -14,12 +14,12 @@
                     <th></th>
                   </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-product>
+            <ng-template pTemplate="body" let-user>
                 <tr>
-                    <td>{{product.emp_name}}</td>
-                    <td>{{product.status}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.status}}</td>
                     <td>
-                        <button pButton type="button" label="View" class="p-button-info view-btn" (click)="view(product.id)"></button>
+                        <button pButton type="button" label="View" class="p-button-info view-btn" (click)="view(user.userId)"></button>
                     </td>
                   </tr>
             </ng-template>
@@ -28,3 +28,6 @@
   </div>
 </div>
 <p-toast key="toast"></p-toast>
+<div *ngIf="spinner" class="spinner">
+  <p-progressSpinner></p-progressSpinner>
+</div>

@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { TimesheetService } from 'src/app/services/timesheet.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-admin',
@@ -9,27 +11,17 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit, AfterViewInit {
-  products: any;
-  constructor(private router: Router, private messageService: MessageService, private toast: ToastService) { }
+
+  userStatusList: any;
+  startDate = new Date();
+  endDate = new Date();
+  user: any;
+  spinner = false;
+
+  constructor(private router: Router, private messageService: MessageService, private toast: ToastService, private timesheet: TimesheetService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.products = [
-      {
-        id: 1,
-        emp_name: 'Andrew',
-        status: 'Submitted',
-      },
-      {
-        id: 2,
-        emp_name: 'David',
-        status: 'Not submitted',
-      },
-      {
-        id: 3,
-        emp_name: 'George',
-        status: 'Rejected',
-      },
-    ]
+    this.getUserDetails();
   }
 
   ngAfterViewInit() {
@@ -55,6 +47,43 @@ export class AdminComponent implements OnInit, AfterViewInit {
           this.messageService.add({severity: 'warn', summary: 'Warning', detail: msg, key: 'toast'});
         }, 300);
         this.toast.warn(null);
+      }
+    });
+  }
+
+  getUserDetails() {
+    this.userService.getUser().asObservable().subscribe(user => {
+      this.user = user;
+    });
+  }
+
+  setStartDate(startDate: Date) {
+    this.startDate = startDate;
+    this.setEndDate();
+
+    if(this.user?.role === 'admin') {
+      this.getUserStatusList();
+    }
+  }
+
+  setEndDate() {
+    this.endDate = new Date(this.startDate);
+    this.endDate = new Date(this.endDate.setDate(this.endDate.getDate() + 6));
+  }
+
+  getUserStatusList() {
+    this.spinner = true;
+    this.timesheet.getUserStatusList(this.startDate, this.endDate).subscribe({
+      next: (res: any) => {
+        this.spinner = false;
+
+        if(res.status === 200) {
+          this.userStatusList = res.content;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, key: 'toast' });
+        }
+      }, error: (err) => {
+        this.spinner = false;
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message, key: 'toast' });
       }
     });
   }
