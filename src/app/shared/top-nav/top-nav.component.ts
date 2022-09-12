@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { TopNavService } from 'src/app/services/top-nav.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -18,13 +19,11 @@ export class TopNavComponent implements OnInit {
   path = '';
   user: any;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService, private topNav: TopNavService) { }
 
   ngOnInit(): void {
     this.getUserDetails();
-    this.startDate = this.setWeekStartDate(this.currDate);
-    this.endDate = this.setWeekEndDate(this.currDate);
-    this.emitDateChange();
+    this.getDate();
     this.getPath();
   }
 
@@ -36,6 +35,20 @@ export class TopNavComponent implements OnInit {
 
   getPath() {
     this.path = this.router.url.split('/')[1];
+  }
+
+  getDate() {
+    this.topNav.getDate().subscribe(res => {
+      if(!!res) {
+        this.startDate = new Date(res.startDate);
+        this.endDate = new Date(res.endDate);
+        this.emitDateChange();
+      } else {
+        this.startDate = this.setWeekStartDate(this.currDate);
+        this.endDate = this.setWeekEndDate(this.currDate);
+        this.topNav.setDate({startDate: this.startDate, endDate: this.endDate});
+      }
+    });
   }
 
   emitDateChange() {
@@ -60,7 +73,7 @@ export class TopNavComponent implements OnInit {
       this.startDate = new Date(this.startDate.setDate(this.startDate.getDate() + 7));
       this.endDate = new Date(this.endDate.setDate(this.endDate.getDate() + 7));
     }
-    this.emitDateChange();
+    this.topNav.setDate({startDate: this.startDate, endDate: this.endDate});
   }
 
 }
