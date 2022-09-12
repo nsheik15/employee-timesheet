@@ -38,4 +38,15 @@ export class TimesheetService {
     return this._http.get(this.urlV1, options);
   }
 
+  getUserStatusList(startDate: Date, endDate: Date) {
+    const params = new HttpParams()
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString());
+    const options = {
+      params
+    };
+
+    return this._http.get(`${this.urlV1}/admin`, options);
+  }
+
 }
