@@ -131,6 +131,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
             });
           } else {
             this.timesheetForm.reset(this.initTimesheetForm());
+            this.onFormChange();
           }
         }
       },
