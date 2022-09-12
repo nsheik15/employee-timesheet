@@ -121,6 +121,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
           }
 
           if(!!res.content) {
+            this.timesheetForm.reset(this.initTimesheetForm());
             res.content.timesheetArr.forEach((data: any, i: number) => {
               delete data._id;
               if(i !== 0) {
@@ -157,6 +158,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
           }
 
           if(!!res.content) {
+            this.timesheetForm.reset(this.initTimesheetForm());
             res.content.timesheetArr.forEach((data: any, i: number) => {
               delete data._id;
               if(i !== 0) {
@@ -305,7 +307,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
       let payload = {
         ...this.timesheetForm.value,
         startDate: this.startDate,
-        endDate: this.satDate
+        endDate: this.sunDate
       };
 
       this.spinner = true;
