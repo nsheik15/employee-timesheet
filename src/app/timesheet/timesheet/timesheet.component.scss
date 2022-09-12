@@ -121,6 +121,9 @@
         .add-btn:hover {
           cursor: pointer;
         }
+        .add-btn:disabled {
+          cursor: not-allowed;
+        }
       }
       td:nth-last-child(1) {
         padding-right: 40px;

@@ -73,7 +73,7 @@
           </td>
           <td class="remove-col">
             <input type="text" pInputText placeholder="0:00" formControlName="totalTime">
-            <button type="button" class="remove-icon" (click)="removeRow(fi)" [disabled]="timesheetArr.length === 1">
+            <button type="button" class="remove-icon" (click)="removeRow(fi)" [disabled]="(timesheetArr.length === 1) || (status === 'Approved') || (status === 'Submitted') || (user.role === 'admin')">
               <i class="pi pi-times"></i>
             </button>
           </td>
@@ -81,7 +81,7 @@
 
         <tr *ngIf="fi === timesheetArr.length - 1" class="last">
           <td class="add-col">
-            <button type="button" class="add-btn" (click)="addRow()">
+            <button type="button" class="add-btn" (click)="addRow()" [disabled]="(status === 'Approved') || (status === 'Submitted') || (user.role === 'admin')">
               <div class="add-icon">
                 <i class="pi pi-plus"></i>
               </div>

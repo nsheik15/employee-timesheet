@@ -26,4 +26,16 @@ export class TimesheetService {
     return this._http.get(this.urlV1, options);
   }
 
+  getAdminTimesheet(startDate: Date, endDate: Date, id: number) {
+    const params = new HttpParams()
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString())
+      .set('userId', id);
+    const options = {
+      params
+    };
+
+    return this._http.get(this.urlV1, options);
+  }
+
 }
