@@ -14,6 +14,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   registerForm!: FormGroup;
   spinner = false;
+  orgList = [
+    { name: 'TVM Infotech' },
+    { name: 'AsmindsTech' }
+  ];
+  filteredOrg: any = [];
 
   constructor(private fb: FormBuilder, private router: Router, private auth: AuthenticationService, private messageService: MessageService, private toast: ToastService) { }
 
@@ -69,6 +74,20 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  filterOrg(event: any) {
+    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.orgList.length; i++) {
+      let org = this.orgList[i];
+      if (org.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(org);
+      }
+    }
+
+    this.filteredOrg = filtered;
   }
 
 }
