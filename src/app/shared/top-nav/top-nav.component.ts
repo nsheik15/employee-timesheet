@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class TopNavComponent implements OnInit {
 
+  @Input('status') status = 'Not Submitted';
   @Output('dateChange') dateChangeEmitter = new EventEmitter();
   @Output('action') actionEmitter = new EventEmitter();
   startDate = new Date();

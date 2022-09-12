@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { TimesheetService } from 'src/app/services/timesheet.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -12,12 +13,12 @@ import { UserService } from 'src/app/services/user.service';
 export class TimesheetComponent implements OnInit, AfterViewInit {
 
   startDate = new Date();
-  monDate = new Date();
   tueDate = new Date();
   wedDate = new Date();
   thuDate = new Date();
   friDate = new Date();
   satDate = new Date();
+  sunDate = new Date();
   user: any;
   totalHours = 0;
   totalMinutes = 0;
@@ -31,6 +32,8 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
     satTime: '00:00'
   };
   grandTotal = '00:00';
+  status = 'Not Submitted';
+  spinner = false;
 
   timesheetForm!: FormGroup;
 
@@ -38,7 +41,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
     return (<FormArray>this.timesheetForm.get('timesheetArr')).controls;
   }
 
-  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService, private userService: UserService, private timesheet: TimesheetService) { }
 
   ngOnInit(): void {
     this.getUserDetails();
@@ -89,17 +92,51 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
     const timesheetForm = this.fb.group({
       project: ['', [Validators.required]],
       task: ['', [Validators.required]],
-      sunTime: ['00:00', [Validators.required]],
       monTime: ['00:00', [Validators.required]],
       tueTime: ['00:00', [Validators.required]],
       wedTime: ['00:00', [Validators.required]],
       thuTime: ['00:00', [Validators.required]],
       friTime: ['00:00', [Validators.required]],
       satTime: ['00:00', [Validators.required]],
+      sunTime: ['00:00', [Validators.required]],
       totalTime: [{value: '00:00', disabled: true}]
     });
 
     return timesheetForm;
+  }
+
+  getUserTimesheet() {
+    this.spinner = true;
+    this.timesheet.getUserTimesheet(this.startDate, this.sunDate).subscribe({
+      next: (res: any) => {
+        this.spinner = false;
+        if(res?.status === 200) {
+          this.status = res.content?.status ? res.content?.status : 'Not Submitted';
+
+          if((this.status === 'Submitted') || (this.status === 'Approved')) {
+            this.messageService.add({severity:'success', summary:'Success', detail: res.message, key: 'toast'});
+          } else if((this.status === 'Not Submitted') || (this.status === 'Rejected')) {
+            this.messageService.add({severity:'warn', summary:'Warning', detail: res.message, key: 'toast'});
+          }
+
+          if(!!res.content) {
+            res.content.timesheetArr.forEach((data: any, i: number) => {
+              delete data._id;
+              if(i !== 0) {
+                this.addRow();
+              }
+              this.timesheetArr[i].patchValue(data);
+            });
+          } else {
+            this.timesheetForm.reset(this.initTimesheetForm());
+          }
+        }
+      },
+      error: (err) => {
+        this.spinner = false;
+        this.messageService.add({severity:'error', summary:'Error', detail: err.message, key: 'toast'});
+      }
+    });
   }
 
   addRow() {
@@ -121,7 +158,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
 
   startCalc() {
     const timesheetArr = this.timesheetArr;
-    const totalControls = ['sunTime', 'monTime', 'tueTime', 'wedTime', 'thuTime', 'friTime', 'satTime'];
+    const totalControls = ['monTime', 'tueTime', 'wedTime', 'thuTime', 'friTime', 'satTime', 'sunTime'];
 
     for(let controls of timesheetArr) {
       const totalTime = this.calculateTotal(controls, totalControls);
@@ -194,21 +231,25 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
   setStartDate(startDate: Date) {
     this.startDate = startDate;
     this.setWeekDates();
+
+    if(this.user.role === 'user') {
+      this.getUserTimesheet();
+    }
   }
 
   setWeekDates() {
-    this.monDate = new Date(this.startDate);
     this.tueDate = new Date(this.startDate);
     this.wedDate = new Date(this.startDate);
     this.thuDate = new Date(this.startDate);
     this.friDate = new Date(this.startDate);
     this.satDate = new Date(this.startDate);
-    this.monDate.setDate(this.startDate.getDate() + 1);
-    this.tueDate.setDate(this.monDate.getDate() + 1);
+    this.sunDate = new Date(this.startDate);
+    this.tueDate.setDate(this.startDate.getDate() + 1);
     this.wedDate.setDate(this.tueDate.getDate() + 1);
     this.thuDate.setDate(this.wedDate.getDate() + 1);
     this.friDate.setDate(this.thuDate.getDate() + 1);
     this.satDate.setDate(this.friDate.getDate() + 1);
+    this.sunDate.setDate(this.satDate.getDate() + 1);
   }
 
   getAction(event: string) {
@@ -218,12 +259,31 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
-    let payload = {
-      ...this.timesheetForm.value,
-      startDate: this.startDate,
-      endDate: this.satDate
-    };
-    console.log(payload);
+    if(this.timesheetForm.valid) {
+      let payload = {
+        ...this.timesheetForm.value,
+        startDate: this.startDate,
+        endDate: this.satDate
+      };
+
+      this.spinner = true;
+      this.timesheet.submit(payload).subscribe({
+        next: (res: any) => {
+          this.spinner = false;
+          if(res.status === 201) {
+            this.messageService.add({severity:'success', summary:'Success', detail: res.message, key: 'toast'});
+            this.status = res.content.status;
+            if((this.status === 'Submitted') || (this.status === 'Approved')) {
+              this.timesheetForm.disable();
+            }
+          }
+        },
+        error: (err) => {
+          this.spinner = false;
+          this.messageService.add({severity:'error', summary:'Error', detail: err.message, key: 'toast'});
+        }
+      });
+    }
   }
 
 }
