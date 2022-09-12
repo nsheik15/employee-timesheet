@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { TimesheetService } from 'src/app/services/timesheet.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -41,7 +42,7 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
     return (<FormArray>this.timesheetForm.get('timesheetArr')).controls;
   }
 
-  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService, private userService: UserService, private timesheet: TimesheetService) { }
+  constructor(private fb: FormBuilder, private messageService: MessageService, private toast: ToastService, private userService: UserService, private timesheet: TimesheetService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getUserDetails();
@@ -126,9 +127,46 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
                 this.addRow();
               }
               this.timesheetArr[i].patchValue(data);
+              this.timesheetForm.disable();
             });
           } else {
             this.timesheetForm.reset(this.initTimesheetForm());
+          }
+        }
+      },
+      error: (err) => {
+        this.spinner = false;
+        this.messageService.add({severity:'error', summary:'Error', detail: err.message, key: 'toast'});
+      }
+    });
+  }
+
+  getAdminTimesheet(id: any) {
+    this.spinner = true;
+    this.timesheet.getAdminTimesheet(this.startDate, this.sunDate, id).subscribe({
+      next: (res: any) => {
+        this.spinner = false;
+        if(res?.status === 200) {
+          this.status = res.content?.status ? res.content?.status : 'Not Submitted';
+
+          if((this.status === 'Submitted') || (this.status === 'Approved')) {
+            this.messageService.add({severity:'success', summary:'Success', detail: res.message, key: 'toast'});
+          } else if((this.status === 'Not Submitted') || (this.status === 'Rejected')) {
+            this.messageService.add({severity:'warn', summary:'Warning', detail: res.message, key: 'toast'});
+          }
+
+          if(!!res.content) {
+            res.content.timesheetArr.forEach((data: any, i: number) => {
+              delete data._id;
+              if(i !== 0) {
+                this.addRow();
+              }
+              this.timesheetArr[i].patchValue(data);
+              this.timesheetForm.disable();
+            });
+          } else {
+            this.timesheetForm.reset(this.initTimesheetForm());
+            this.timesheetForm.disable();
           }
         }
       },
@@ -234,6 +272,9 @@ export class TimesheetComponent implements OnInit, AfterViewInit {
 
     if(this.user.role === 'user') {
       this.getUserTimesheet();
+    } else if(this.user.role === 'admin') {
+      const id = this.route.snapshot.paramMap.get('id');
+      this.getAdminTimesheet(id);
     }
   }
 

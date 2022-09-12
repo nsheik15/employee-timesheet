@@ -25,7 +25,11 @@
       class="p-button-text p-button-plain"
       [disabled]="(status === 'Approved') || (status === 'Submitted')"
       (click)="actionEmitter.emit('submit')">Submit</button>
-    <button *ngIf="user?.role === 'admin'" pButton pRipple class="p-button-success p-button-plain" (click)="actionEmitter.emit('approve')">Approve</button>
-    <button *ngIf="user?.role === 'admin'" pButton pRipple class="p-button-danger p-button-plain" (click)="actionEmitter.emit('reject')">Reject</button>
+    <button *ngIf="user?.role === 'admin'" pButton pRipple class="p-button-success p-button-plain"
+      [disabled]="status !== 'Submitted'"
+      (click)="actionEmitter.emit('approve')">Approve</button>
+    <button *ngIf="user?.role === 'admin'" pButton pRipple class="p-button-danger p-button-plain"
+      [disabled]="status !== 'Submitted'"
+      (click)="actionEmitter.emit('reject')">Reject</button>
   </div>
 </div>
