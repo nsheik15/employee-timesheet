@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -19,6 +19,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     { name: 'AsmindsTech' }
   ];
   filteredOrg: any = [];
+  emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  passwordRe = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  passwordRules = 'Password must contain one uppercase, one lowercase, one number and one special character';
 
   constructor(private fb: FormBuilder, private router: Router, private auth: AuthenticationService, private messageService: MessageService, private toast: ToastService) { }
 
@@ -46,16 +49,23 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       name: ['', [Validators.required]],
       organization: ['', [Validators.required]],
       designation: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern(this.emailRe)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(15), Validators.pattern(this.passwordRe)]],
+      confirmPassword: ['', [Validators.required, this.confirmPasswordVal()]],
       isAdmin: [false]
     });
   }
 
+  confirmPasswordVal(): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = this.registerForm?.get('password')?.value;
+      return (control.value !== password) ? { invalid: true } : null;
+    }
+  }
+
   register() {
-    this.spinner = true;
     if(this.registerForm.valid) {
+      this.spinner = true;
       let payload = { ...this.registerForm.value };
       delete payload.confirmPassword;
       payload.role = this.registerForm.get('isAdmin')?.value ? 'admin' : 'user';

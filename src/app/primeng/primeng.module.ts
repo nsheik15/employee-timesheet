@@ -9,6 +9,9 @@ import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {TooltipModule} from 'primeng/tooltip';
 
 const PrimengComponents = [
   TableModule,
@@ -18,7 +21,10 @@ const PrimengComponents = [
   CheckboxModule,
   ToastModule,
   ProgressSpinnerModule,
-  AutoCompleteModule
+  AutoCompleteModule,
+  MessagesModule,
+  MessageModule,
+  TooltipModule
 ]
 
 @NgModule({

@@ -8,18 +8,24 @@
         <img src="assets/images/login-img.png" alt="">
       </div>
       <div class="col-6 d-flex align-items-center justify-content-center">
-        <form class="login-form" [formGroup]="loginForm" (submit)="login()">
+        <form class="login-form" [formGroup]="loginForm" #form="ngForm" (submit)="login()">
           <h4>Login</h4>
           <hr>
-          <h6 class="mt-4 required">Email Address</h6>
-          <div class="p-inputgroup">
-              <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-              <input type="text" pInputText placeholder="Email" formControlName="email">
+          <div class="p-field p-fluid">
+            <h6 class="mt-4 required">Email Address</h6>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                <input type="text" pInputText placeholder="Email" formControlName="email">
+            </div>
+            <small *ngIf="(loginForm.get('email')?.dirty || form.submitted) && loginForm.get('email')?.hasError('required')" class="p-invalid p-error">Email is Required</small>
           </div>
-          <h6 class="mt-4 required">Password</h6>
-          <div class="p-inputgroup">
-              <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
-              <input type="password" pInputText placeholder="Password" formControlName="password">
+          <div class="p-field p-fluid">
+            <h6 class="mt-4 required">Password</h6>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                <input type="password" pInputText placeholder="Password" formControlName="password">
+            </div>
+            <small *ngIf="(loginForm.get('password')?.dirty || form.submitted) && loginForm.get('password')?.hasError('required')" class="p-invalid p-error">Password is Required</small>
           </div>
           <div class="d-flex flex-direction-col justify-content-between">
             <div class="checkbox">
