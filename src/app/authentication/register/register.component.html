@@ -7,7 +7,7 @@
         </div>
         <img src="assets/images/login-img.png" alt="">
       </div>
-      <form class="col-8 px-4" [formGroup]="registerForm" (submit)="register()">
+      <form #form="ngForm" class="col-8 px-4" [formGroup]="registerForm" (submit)="register()">
         <h4>Sign up</h4>
         <hr>
         <div class="row">
@@ -20,25 +20,49 @@
         </div>
         <div class="row">
           <div class="col-6">
-            <h6 class="mt-4 required">Full Name</h6>
-            <input type="text" pInputText placeholder="Name" formControlName="name">
-            <h6 class="mt-4 required">Organization</h6>
-            <p-autoComplete placeholder="Organization" formControlName="organization"
-              [suggestions]="filteredOrg" (completeMethod)="filterOrg($event)" field="name" [minLength]="1"></p-autoComplete>
-            <h6 class="mt-4 required">Designation</h6>
-            <input type="text" pInputText placeholder="Designation" formControlName="designation">
+            <div class="p-field p-fluid">
+              <h6 class="mt-4 required">Full Name</h6>
+              <input type="text" pInputText placeholder="Name" formControlName="name">
+              <small *ngIf="(registerForm.get('name')?.dirty || form.submitted) && registerForm.get('name')?.hasError('required')" class="p-invalid p-error">Name is Required</small>
+            </div>
+            <div class="p-field p-fluid">
+              <h6 class="mt-4 required">Organization</h6>
+              <p-autoComplete placeholder="Organization" formControlName="organization"
+                [suggestions]="filteredOrg" (completeMethod)="filterOrg($event)" field="name" [minLength]="1"></p-autoComplete>
+              <small *ngIf="(registerForm.get('organization')?.dirty || form.submitted) && registerForm.get('organization')?.hasError('required')" class="p-invalid p-error">Organization is Required</small>
+            </div>
+            <div class="p-field p-fluid">
+              <h6 class="mt-4 required">Designation</h6>
+              <input type="text" pInputText placeholder="Designation" formControlName="designation">
+              <small *ngIf="(registerForm.get('designation')?.dirty || form.submitted) && registerForm.get('designation')?.hasError('required')" class="p-invalid p-error">Designation is Required</small>
+            </div>
             <div class="checkbox">
               <p-checkbox [binary]="true" inputId="admin" formControlName="isAdmin"></p-checkbox>
               <label for="admin">Signup as Organization</label>
             </div>
           </div>
           <div class="col-6">
-            <h6 class="mt-4 required">Email</h6>
-            <input type="text" pInputText placeholder="Email" formControlName="email">
-            <h6 class="mt-4 required">Password</h6>
-            <input type="password" pInputText placeholder="Password" formControlName="password">
-            <h6 class="mt-4 required">Confirm Password</h6>
-            <input type="password" pInputText placeholder="Confirm Password" formControlName="confirmPassword">
+            <div class="p-field p-fluid">
+              <h6 class="mt-4 required">Email</h6>
+              <input class="p-invalid" type="email" pInputText placeholder="Email" formControlName="email">
+              <small *ngIf="(registerForm.get('email')?.dirty || form.submitted) && registerForm.get('email')?.hasError('required') && !registerForm.get('email')?.hasError('pattern')" class="p-invalid p-error">Email is Required</small>
+              <small *ngIf="(registerForm.get('email')?.dirty || form.submitted) && registerForm.get('email')?.hasError('pattern')" class="p-invalid p-error">Invalid Email</small>
+            </div>
+            <div class="p-field p-fluid">
+              <h6 class="mt-4 required">Password</h6>
+              <input class="p-invalid" type="password" pInputText placeholder="Password"
+                formControlName="password" [pTooltip]="passwordRules" tooltipEvent="focus" tooltipPosition="bottom">
+              <small *ngIf="(registerForm.get('password')?.dirty || form.submitted) && registerForm.get('password')?.hasError('required') && !registerForm.get('password')?.hasError('pattern')" class="p-invalid p-error">Password is Required</small>
+              <small *ngIf="(registerForm.get('password')?.dirty || form.submitted) && registerForm.get('password')?.hasError('minlength')" class="p-invalid p-error">Password must have 8 Characters</small>
+              <small *ngIf="(registerForm.get('password')?.dirty || form.submitted) && registerForm.get('password')?.hasError('maxlength')" class="p-invalid p-error">Password must be less than 15 Characters</small>
+              <small *ngIf="(registerForm.get('password')?.dirty || form.submitted) && registerForm.get('password')?.hasError('pattern') && !(registerForm.get('password')?.hasError('minlength') || registerForm.get('password')?.hasError('maxlength'))" class="p-invalid p-error">Invalid Password</small>
+            </div>
+            <div class="p-field p-fluid">
+              <h6 class="mt-4 required">Confirm Password</h6>
+              <input class="p-invalid" type="password" pInputText placeholder="Confirm Password" formControlName="confirmPassword">
+              <small *ngIf="(registerForm.get('confirmPassword')?.dirty || form.submitted) && registerForm.get('confirmPassword')?.hasError('required') && !registerForm.get('confirmPassword')?.hasError('invalid')" class="p-invalid p-error">Confirm Password is Required</small>
+              <small *ngIf="(registerForm.get('confirmPassword')?.dirty || form.submitted) && registerForm.get('confirmPassword')?.hasError('invalid')" class="p-invalid p-error">Password & Confirm Password does not match</small>
+            </div>
           </div>
         </div>
         <div class="row">

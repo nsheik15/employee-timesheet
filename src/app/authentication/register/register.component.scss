@@ -156,3 +156,12 @@
   font-size: 14px;
   padding: 6px !important;
 }
+.p-field {
+  position: relative;
+}
+.p-error {
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+  font-size: 13px;
+}
