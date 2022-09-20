@@ -1,4 +1,8 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MessageService } from 'primeng/api';
 
 import { TimesheetComponent } from './timesheet.component';
 
@@ -8,7 +12,9 @@ describe('TimesheetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TimesheetComponent ]
+      imports: [ HttpClientModule, RouterTestingModule ],
+      declarations: [ TimesheetComponent ],
+      providers: [ FormBuilder, MessageService ]
     })
     .compileComponents();
 

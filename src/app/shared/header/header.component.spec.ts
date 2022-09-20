@@ -1,4 +1,7 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MessageService } from 'primeng/api';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 import { HeaderComponent } from './header.component';
 
@@ -8,7 +11,9 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+      imports: [ HttpClientModule ],
+      declarations: [ HeaderComponent ],
+      providers: [ MessageService ]
     })
     .compileComponents();
 

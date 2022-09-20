@@ -1,4 +1,8 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { PrimengModule } from 'src/app/primeng/primeng.module';
 
 import { LoginComponent } from './login.component';
 
@@ -8,7 +12,9 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      imports: [ HttpClientModule, ReactiveFormsModule, PrimengModule ],
+      declarations: [ LoginComponent ],
+      providers: [ FormBuilder, MessageService ]
     })
     .compileComponents();
 
