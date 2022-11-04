@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   registerForm!: FormGroup;
   spinner = false;
   orgList = [
-    { name: 'TVM Infotech' },
-    { name: 'AsmindsTech' }
+    'TVM Infotech',
+    'AsmindsTech'
   ];
   filteredOrg: any = [];
   emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     let query = event.query;
     for (let i = 0; i < this.orgList.length; i++) {
       let org = this.orgList[i];
-      if (org.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+      if (org.toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(org);
       }
     }

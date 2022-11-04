@@ -28,7 +28,7 @@
             <div class="p-field p-fluid">
               <h6 class="mt-4 required">Organization</h6>
               <p-autoComplete placeholder="Organization" formControlName="organization"
-                [suggestions]="filteredOrg" (completeMethod)="filterOrg($event)" field="name" [minLength]="1"></p-autoComplete>
+                [suggestions]="filteredOrg" (completeMethod)="filterOrg($event)" [minLength]="1"></p-autoComplete>
               <small *ngIf="(registerForm.get('organization')?.dirty || form.submitted) && registerForm.get('organization')?.hasError('required')" class="p-invalid p-error">Organization is Required</small>
             </div>
             <div class="p-field p-fluid">
